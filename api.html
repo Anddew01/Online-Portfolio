@@ -74,9 +74,9 @@
   <button onclick="getRandomUser()">สุ่มผู้ใช้</button>
   <div id="userResult"></div>
 
-  <h3 style="font-weight: bold;">Random University in the United States</h3>
+  <h3 style="font-weight: bold;">Random University</h3>
   <button onclick="getRandomUniversity()">สุ่มมหาลัย</button>
-  <p id="randomUniversity"></p>
+  <div id="universityInfo"></div>
 
   <h3 style="font-weight: bold;">Cat Fact API</h3>
   <button onclick="getCatFact()">รับข้อเท็จจริงเกี่ยวกับแมว</button>
@@ -222,30 +222,35 @@
 </script>
 
 <script>
-  async function getUniversities() {
-    const apiUrl = 'http://universities.hipolabs.com/search?country=United+States';
+  function getRandomUniversity() {
+      const apiUrl = 'http://universities.hipolabs.com/search?country=United+States';
 
-    try {
-      const response = await fetch(apiUrl);
-      const universities = await response.json();
+      // ใช้ fetch เพื่อดึงข้อมูลจาก API
+      fetch(apiUrl)
+          .then(response => response.json()) // แปลง JSON เป็น Object
+          .then(data => {
+              // เลือกมหาวิทยาลัยแบบสุ่ม
+              const randomIndex = Math.floor(Math.random() * data.length);
+              const randomUniversity = data[randomIndex];
 
-      return universities;
-    } catch (error) {
-      console.error('Error:', error);
-      return [];
-    }
+              // แสดงข้อมูลมหาวิทยาลัย
+              displayUniversityInfo(randomUniversity);
+          })
+          .catch(error => {
+              console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+          });
   }
 
-  function getRandomUniversity() {
-    getUniversities().then(universities => {
-      const randomIndex = Math.floor(Math.random() * universities.length);
-      const randomUniversity = universities[randomIndex];
+  function displayUniversityInfo(university) {
+      const universityInfo = document.getElementById('universityInfo');
+      universityInfo.innerHTML = '';
 
-      const randomUniversityElement = document.getElementById('randomUniversity');
-      randomUniversityElement.textContent = `${randomUniversity.name} - ${randomUniversity.country}`;
-    });
+      const infoParagraph = document.createElement('p');
+      infoParagraph.textContent = `ชื่อ: ${university.name}, ประเทศ: ${university.country}`;
+      universityInfo.appendChild(infoParagraph);
   }
 </script>
+
 
 <script>
   async function getCatFact() {
