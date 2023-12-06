@@ -225,15 +225,12 @@
   function getRandomUniversity() {
       const apiUrl = 'http://universities.hipolabs.com/search?country=United+States';
 
-      // ใช้ fetch เพื่อดึงข้อมูลจาก API
       fetch(apiUrl)
           .then(response => response.json()) // แปลง JSON เป็น Object
           .then(data => {
-              // เลือกมหาวิทยาลัยแบบสุ่ม
               const randomIndex = Math.floor(Math.random() * data.length);
               const randomUniversity = data[randomIndex];
 
-              // แสดงข้อมูลมหาวิทยาลัย
               displayUniversityInfo(randomUniversity);
           })
           .catch(error => {
