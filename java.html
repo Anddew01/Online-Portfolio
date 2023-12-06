@@ -10,6 +10,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
+<style>
+  h3{
+    text-decoration: underline;
+    color: hotpink;
+  }
+</style>
 
 <body style="background-color: gainsboro;">
 <!-- Navbar (sit on top) -->
@@ -25,18 +31,19 @@
   </div>
 </div>
 </div>
-<div>
-  <h4 style="font-weight: bold;">A-Z</h4>
+
+<div style="padding-top: 50px; padding-left: 10px;">
+  <h3 style="font-weight: bold;">A-Z</h3>
 <button onclick="printAlphabet()">ตกลง</button>
 <p id="demo1"></p>
   
-<h4 style="font-weight: bold;">Constructor Function: Accumulator(startingValue)</h4>
+<h3 style="font-weight: bold;">Constructor Function: Accumulator(startingValue)</h3>
   <label for="inputValue">ป้อนตัวเลข:</label>
   <input type="number" id="inputValue" placeholder="ป้อนตัวเลข">
   <button onclick="runAccumulator()">ตกลง</button>
   <p id="demo2"></p>
 
-  <h4 style="font-weight: bold;">คูณเลข</h4>
+  <h3 style="font-weight: bold;">คูณเลข</h3>
   <label for="num1">ป้อนตัวเลข:</label>
   <input type="number" id="num1" placeholder="ป้อนตัวเลข"><br><br>
   <label for="num2">ป้อนตัวเลข:</label>
@@ -44,7 +51,7 @@
   <button onclick="multiplyNumbers()">ตกลง</button>
   <p id="result"></p>
 
-  <h4 style="font-weight: bold;">แปลงอุณหภูมิ</h4>
+  <h3 style="font-weight: bold;">แปลงอุณหภูมิ</h3>
   <label for="temperature">ป้อนอุณหภูมิ:</label>
   <input type="number" id="temperature" placeholder="ป้อนอุณหภูมิ">
   <select id="unit">
@@ -53,18 +60,25 @@
   </select>
   <button onclick="convertTemperature()">แปลงค่า</button>
   <p id="convertedTemperature"></p>
-</div>
 
-<div>
-้<h2>1 วันทำไรบ้าง</h2>  
+  <h3 style="font-weight: bold;">ตรวจสอบเกรด:</h3>
+  <label for="scoreInput">กรอกคะแนน</label>
+  <input type="text" id="scoreInput" placeholder="กรอกคะแนน">
+  <button onclick="calculateGrade()">คำนวณเกรด</button>
+  <p id="result1"></p>
+
+  <h3 style="font-weight: bold;">แปลงจำนวนวันเป็นวินาที</h3>
+  <label for="daysInput">กรอกจำนวนวัน:</label>
+  <input type="number" id="daysInput" placeholder="จำนวนวัน">
+  <button onclick="convertDaysToSeconds()">แปลงเป็นวินาที</button>
+  <p id="result2"></p>
+
+  <h3 style="font-weight: bold;">1 วันทำไรบ้าง</h3>  
   <canvas id="myChart"></canvas>
-</div>
 
-<div>
-<h2>ประชากรในแต่ละประเทศ</h2>  
+  <h3  style="font-weight: bold;">ประชากรในแต่ละประเทศ</h3>  
   <canvas id="myChart2" style="width:100%;max-width:100%"></canvas>
 </div>
-
 
 
 <!-- Footer -->
@@ -199,6 +213,26 @@ function convertTemperature() {
       })
       .catch(error => console.error('เกิดข้อผิดพลาด: ', error));
   });
+</script>
+
+<script>
+        function calculateGrade() {
+            var score = parseFloat(document.getElementById("scoreInput").value);
+            var grade = (score >= 80) ? "A" : (score >= 70) ? "B" : (score >= 60) ? "C" : (score >= 50) ? "D" : "F";
+            document.getElementById("result1").innerHTML = "เกรดของคุณคือ: " + grade;
+        }
+    </script>
+
+<script>
+  function daysToSeconds(days) {
+      return days * 24 * 60 * 60;
+  }
+
+  function convertDaysToSeconds() {
+      var days = parseFloat(document.getElementById("daysInput").value);
+      var seconds = daysToSeconds(days);
+      document.getElementById("result2").innerHTML = days + " วัน เท่ากับ " + seconds + " วินาที";
+  }
 </script>
   
 

@@ -10,7 +10,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
-
+<style>
+  h3{
+    text-decoration: underline;
+    color: hotpink;
+  }
+</style>
 <body style="background-color: gainsboro;">
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
@@ -26,8 +31,8 @@
 </div>
 </div>
 
-<div style="padding: 5% 0% 0% 10px;">
-  <h2>กรุณาป้อนอีเมล</h2>
+<div style="padding: 50px 0% 0% 10px;">
+  <h3  style="font-weight: bold;">กรุณาป้อนอีเมล</h3>
   <form 
   method="POST" 
   action="https://script.google.com/macros/s/AKfycbwoTAbU8v3pLSTZdZPnf08QYj3x7iWP5OTo7rxUaZNxfxZdHlWJcvGijnbMmqoqNt91gQ/exec"
@@ -43,7 +48,7 @@
 </div>
 
 <div style="padding-left: 10px;">
-  <h2>Nationalize API</h2>
+  <h3  style="font-weight: bold;">Nationalize API</h3>
 <form id="nameForm">
     <label for="name">กรอกชื่อคุณ:</label>
     <input type="text" id="name" name="name" required>
@@ -53,12 +58,31 @@
 </div>
 
 <div style="padding-left: 10px;">
-  <h2>Coinbase API</h2>
+  <h3  style="font-weight: bold;">Coinbase API</h3>
 <div id="lastUpdateTime"></div>
 <div id="prices"></div>
 </div>
 
+<div style="padding-left: 10px;">
+  <h3 style="font-weight: bold;">Age Comparison with API</h3>
+  <label for="birthYear">ใส่ปีเกิด:</label>
+  <input type="text" id="birthYear" name="birthYear">
+  <button onclick="compareAge()">เช็คอายุ</button>
+  <p id="result1"></p>
 
+  <h3 style="font-weight: bold;">Random User Generator</h3>
+  <button onclick="getRandomUser()">สุ่มผู้ใช้</button>
+  <div id="userResult"></div>
+
+  <h3 style="font-weight: bold;">Random University in the United States</h3>
+  <button onclick="getRandomUniversity()">สุ่มมหาลัย</button>
+  <p id="randomUniversity"></p>
+
+  <h3 style="font-weight: bold;">Cat Fact API</h3>
+  <button onclick="getCatFact()">รับข้อเท็จจริงเกี่ยวกับแมว</button>
+  <p id="catFactResult"></p>
+
+</div>
 
 
 <div>
@@ -151,5 +175,98 @@
 
   setInterval(fetchPrices, 3000);
 </script>
+
+<script>
+  async function compareAge() {
+    const birthYear = document.getElementById('birthYear').value;
+
+    try {
+      const response = await fetch('https://api.publicapis.org/entries', {
+        method: 'GET',
+      });
+
+      const data = await response.json();
+
+      const currentYear = new Date().getFullYear();
+      const age = currentYear - birthYear;
+
+      const resultElement = document.getElementById('result1');
+      resultElement.textContent = `อายุ: ${age}`;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+</script>
+
+<script>
+  async function getRandomUser() {
+    const apiUrl = 'https://randomuser.me/api/';
+
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      const user = data.results[0];
+      const userResultElement = document.getElementById('userResult');
+
+      userResultElement.innerHTML = `
+        <p>ชื่อ: ${user.name.first} ${user.name.last}</p>
+        <p>อีเมล: ${user.email}</p>
+        <p>ชื่อผู้ใช้: ${user.login.username}</p>
+        <img src="${user.picture.large}" alt="User Image">
+      `;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+</script>
+
+<script>
+  async function getUniversities() {
+    const apiUrl = 'http://universities.hipolabs.com/search?country=United+States';
+
+    try {
+      const response = await fetch(apiUrl);
+      const universities = await response.json();
+
+      return universities;
+    } catch (error) {
+      console.error('Error:', error);
+      return [];
+    }
+  }
+
+  function getRandomUniversity() {
+    getUniversities().then(universities => {
+      const randomIndex = Math.floor(Math.random() * universities.length);
+      const randomUniversity = universities[randomIndex];
+
+      const randomUniversityElement = document.getElementById('randomUniversity');
+      randomUniversityElement.textContent = `${randomUniversity.name} - ${randomUniversity.country}`;
+    });
+  }
+</script>
+
+<script>
+  async function getCatFact() {
+    const apiUrl = 'https://catfact.ninja/fact';
+
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      const catFactResultElement = document.getElementById('catFactResult');
+      
+      if (data.fact) {
+        catFactResultElement.textContent = `Cat Fact: ${data.fact}`;
+      } else {
+        catFactResultElement.textContent = 'Cat fact not available.';
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+</script>
+
 </body>
 </html>
